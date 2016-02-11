@@ -1,4 +1,4 @@
-package iamtheissue.eattheworld.main;
+package iamtheissue.eattheworld.init;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

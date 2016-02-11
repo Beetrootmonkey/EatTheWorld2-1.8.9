@@ -1,4 +1,4 @@
-package iamtheissue.eattheworld.main;
+package iamtheissue.eattheworld.init;
 
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

@@ -1,4 +1,4 @@
-package iamtheissue.eattheworld.main;
+package iamtheissue.eattheworld.init;
 
 public class Reference
 {

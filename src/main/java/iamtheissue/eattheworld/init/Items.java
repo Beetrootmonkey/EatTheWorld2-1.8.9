@@ -1,4 +1,4 @@
-package iamtheissue.eattheworld.main;
+package iamtheissue.eattheworld.init;
 
 import iamtheissue.eattheworld.items.EffectFood;
 import iamtheissue.eattheworld.items.FuelItem;
