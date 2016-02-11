@@ -1,0 +1,16 @@
+[
+{
+  "modid": "eattheworld",
+  "name": "EatTheWorld",
+  "description": "An overhaul to mob drops.",
+  "version": "1.1",
+  "mcversion": "1.8.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["IAmTheIssue"],
+  "credits": "Several people who i stole textures from. Sorry. I suck at drawing.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
