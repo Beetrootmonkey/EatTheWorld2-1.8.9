@@ -1,4 +1,4 @@
-package iamtheissue.eattheworld.main;
+package iamtheissue.eattheworld.init;
 
 import iamtheissue.eattheworld.items.FuelItem;
 import net.minecraft.item.Item;
