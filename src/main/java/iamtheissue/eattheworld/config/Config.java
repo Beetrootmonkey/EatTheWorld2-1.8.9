@@ -36,6 +36,7 @@ public class Config
         //AlteredDrops.magmaCube = config.get(CATEGORY_DROPS, "magmaCube", true).getBoolean(true);
         AlteredDrops.mooshroom = config.get(CATEGORY_DROPS, "mooshroom", true).getBoolean(true);
         AlteredDrops.ocelot = config.get(CATEGORY_DROPS, "ocelot", true).getBoolean(true);
+        AlteredDrops.tamedOcelot = config.get(CATEGORY_DROPS, "tamedOcelot", true).getBoolean(true);
         AlteredDrops.pig = config.get(CATEGORY_DROPS, "pig", true).getBoolean(true);
         AlteredDrops.pigZombie = config.get(CATEGORY_DROPS, "pigZombie", true).getBoolean(true);
         AlteredDrops.rabbit = config.get(CATEGORY_DROPS, "rabbit", true).getBoolean(true);

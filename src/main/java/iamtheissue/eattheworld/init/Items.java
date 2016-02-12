@@ -8,6 +8,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class Items
 {
@@ -44,13 +45,16 @@ public class Items
 	public static Item raw_squid_meat;
 	public static Item raw_wolf_meat;
 	public static Item sheep_hide;
+	public static Item siamese_cat_hide;
 	public static Item small_bone;
+	public static Item tabby_cat_hide;
+	public static Item tuxedo_cat_hide;
 	public static Item wolf_hide;
 
 	
 	public static void preInit()
 	{
-		//ModelBakery.registerItemVariants(phial_goo, new ModelResourceLocation(Reference.MOD_ID + ":phial_goo_0", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":phial_goo_1", "inventory"));
+		
 	}
 	
 	public static void init()
@@ -88,9 +92,31 @@ public class Items
 		raw_squid_meat = new ItemFood(2, 1f, false).setUnlocalizedName("raw_squid_meat");
 		raw_wolf_meat = new ItemFood(2, 0.25f, false).setUnlocalizedName("raw_wolf_meat");
 		sheep_hide = new Item().setUnlocalizedName("sheep_hide");
+		siamese_cat_hide = new Item().setUnlocalizedName("siamese_cat_hide");
 		small_bone = new Item().setUnlocalizedName("small_bone");
+		tabby_cat_hide = new Item().setUnlocalizedName("tabby_cat_hide");
+		tuxedo_cat_hide = new Item().setUnlocalizedName("tuxedo_cat_hide");
 		wolf_hide = new Item().setUnlocalizedName("wolf_hide");
 		
+		
+	}
+	
+	private static void registerOreDictionaryNames()
+	{
+		OreDictionary.registerOre("materialTinyHide", bat_hide);
+		OreDictionary.registerOre("materialSmallHide", chicken_skin);
+		OreDictionary.registerOre("materialLargeHide", cow_hide);
+		OreDictionary.registerOre("materialLargeHide", ghast_skin);
+		OreDictionary.registerOre("materialLargeHide", horse_hide);
+		OreDictionary.registerOre("materialMediumHide", human_skin);
+		OreDictionary.registerOre("materialLargeHide", mooshroom_hide);
+		OreDictionary.registerOre("materialSmallHide", ocelot_hide);
+		OreDictionary.registerOre("materialMediumHide", pig_skin);
+		OreDictionary.registerOre("materialMediumHide", sheep_hide);
+		OreDictionary.registerOre("materialSmallHide", siamese_cat_hide);
+		OreDictionary.registerOre("materialSmallHide", tabby_cat_hide);
+		OreDictionary.registerOre("materialSmallHide", tuxedo_cat_hide);
+		OreDictionary.registerOre("materialMediumHide", wolf_hide);
 	}
 	
 	public static void register()
@@ -128,7 +154,10 @@ public class Items
 		GameRegistry.registerItem(raw_squid_meat, raw_squid_meat.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(raw_wolf_meat, raw_wolf_meat.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(sheep_hide, sheep_hide.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(siamese_cat_hide, siamese_cat_hide.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(small_bone, small_bone.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(tabby_cat_hide, tabby_cat_hide.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(tuxedo_cat_hide, tuxedo_cat_hide.getUnlocalizedName().substring(5));	
 		GameRegistry.registerItem(wolf_hide, wolf_hide.getUnlocalizedName().substring(5));
 	}
 	
@@ -168,7 +197,10 @@ public class Items
 		registerRender(raw_squid_meat);
 		registerRender(raw_wolf_meat);
 		registerRender(sheep_hide);
+		registerRender(siamese_cat_hide);
 		registerRender(small_bone);
+		registerRender(tabby_cat_hide);
+		registerRender(tuxedo_cat_hide);
 		registerRender(wolf_hide);
 		
 		
@@ -183,7 +215,12 @@ public class Items
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, new ModelResourceLocation(Reference.MOD_ID + ":" + item.getUnlocalizedName().substring(5) + "_" + meta, "inventory"));
 	}
 	
-	
+	public static void postInit()
+	{
+		//ModelBakery.registerItemVariants(phial_goo, new ModelResourceLocation(Reference.MOD_ID + ":phial_goo_0", "inventory"), new ModelResourceLocation(Reference.MOD_ID + ":phial_goo_1", "inventory"));
+
+		registerOreDictionaryNames();
+	}
 	
 	
 	
