@@ -52,6 +52,7 @@ public class AlteredDrops
 	// Mules currently are treated as horses
 	//public static boolean mule = true;
 	public static boolean ocelot = true;
+	public static boolean tamedOcelot = true;
 	public static boolean wolf = true;
 	
 	// Utility mobs

@@ -176,9 +176,36 @@ public class EventHook
 				{
 					addDrop(event, Items.raw_ocelot_meat, 1, 0.9f);
 				}
-				addDrop(event, Items.ocelot_hide, 1, 0.9f);
 				addDrop(event, Items.fat, 2, 0.4f);
 				addDrop(event, Items.small_bone, 3, 0.9f);
+				switch(((EntityOcelot)event.entity).getTameSkin())
+				{
+					case 0:
+					{
+						if(AlteredDrops.ocelot)
+							addDrop(event, Items.ocelot_hide, 1, 0.9f);
+						break;
+					}
+					case 1:
+					{
+						if(AlteredDrops.tamedOcelot)
+							addDrop(event, Items.tuxedo_cat_hide, 1, 0.9f);
+						break;
+					}
+					case 2:
+					{
+						if(AlteredDrops.tamedOcelot)
+							addDrop(event, Items.tabby_cat_hide, 1, 0.9f);
+						break;
+					}
+					case 3:
+					{
+						if(AlteredDrops.tamedOcelot)
+							addDrop(event, Items.siamese_cat_hide, 1, 0.9f);
+						break;
+					}
+				}
+				
 			}
 		}
 		else if(AlteredDrops.pig && event.entity instanceof EntityPig)
