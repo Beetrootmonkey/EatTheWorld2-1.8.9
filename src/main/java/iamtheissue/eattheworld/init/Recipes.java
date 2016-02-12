@@ -20,7 +20,7 @@ public class Recipes
 		GameRegistry.addSmelting(Items.raw_ghast_meat, new ItemStack(Items.cooked_ghast_meat), 0.35f);
 		GameRegistry.addSmelting(Items.raw_horse_meat, new ItemStack(Items.cooked_horse_meat), 0.35f);
 		GameRegistry.addSmelting(Items.raw_human_meat, new ItemStack(Items.cooked_human_meat), 0.35f);
-		GameRegistry.addSmelting(Items.raw_ocelote_meat, new ItemStack(Items.cooked_ocelote_meat), 0.35f);
+		GameRegistry.addSmelting(Items.raw_ocelot_meat, new ItemStack(Items.cooked_ocelot_meat), 0.35f);
 		GameRegistry.addSmelting(Items.raw_silverfish, new ItemStack(Items.cooked_silverfish), 0.35f);
 		GameRegistry.addSmelting(net.minecraft.init.Items.spider_eye, new ItemStack(Items.cooked_spider_eye), 0.35f);
 		GameRegistry.addSmelting(Items.raw_spider_leg, new ItemStack(Items.cooked_spider_leg), 0.35f);
@@ -33,12 +33,12 @@ public class Recipes
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HHH", "HHH", "HHH", 'H', Items.bat_hide});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.chicken_skin});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.human_skin});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", "HH", 'H', Items.ocelote_hide});
+		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", "HH", 'H', Items.ocelot_hide});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.pig_skin});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.sheep_hide});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HHH", 'H', Items.wolf_hide});
 		
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Blocks.torch, 2), new Object[]{"F", "S", 'H', Items.fat, 'S', net.minecraft.init.Items.stick});
+		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Blocks.torch, 2), new Object[]{"F", "S", 'F', Items.fat, 'S', net.minecraft.init.Items.stick});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.string, 2), new Object[]{"H", "H", 'H', Items.horse_hair});
 	}
 	
