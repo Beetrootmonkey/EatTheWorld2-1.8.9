@@ -29,7 +29,7 @@ public class Main
 		Blocks.register();
 		Items.init();
 		Items.register();
-		Items.preInit();
+		Items.postInit();
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		
 	}

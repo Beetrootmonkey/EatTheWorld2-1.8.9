@@ -3,6 +3,7 @@ package iamtheissue.eattheworld.init;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class Recipes
 {
@@ -30,26 +31,22 @@ public class Recipes
 	
 	private static void registerShaped()
 	{
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HHH", "HHH", "HHH", 'H', Items.bat_hide});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.chicken_skin});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.human_skin});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", "HH", 'H', Items.ocelot_hide});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.pig_skin});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HH", 'H', Items.sheep_hide});
-		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"HHH", 'H', Items.wolf_hide});
-		
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Blocks.torch, 2), new Object[]{"F", "S", 'F', Items.fat, 'S', net.minecraft.init.Items.stick});
 		GameRegistry.addShapedRecipe(new ItemStack(net.minecraft.init.Items.string, 2), new Object[]{"H", "H", 'H', Items.horse_hair});
 	}
 	
 	private static void registerShapeless()
 	{
-		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.leather), Items.cow_hide);
-		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.leather), Items.ghast_skin);
-		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.leather), Items.horse_hide);
-		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.leather), Items.mooshroom_hide);
-		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.leather), Items.cow_hide);
-		
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide", "materialTinyHide", "materialSmallHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialTinyHide", "materialTinyHide", "materialSmallHide", "materialSmallHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialTinyHide", "materialTinyHide", "materialMediumHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialSmallHide", "materialSmallHide", "materialSmallHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialTinyHide","materialTinyHide", "materialSmallHide", "materialMediumHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialSmallHide", "materialSmallHide", "materialSmallHide", "materialSmallHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialSmallHide", "materialSmallHide", "materialMediumHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialMediumHide", "materialMediumHide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(net.minecraft.init.Items.leather), new Object[]{"materialLargeHide"}));
 		GameRegistry.addShapelessRecipe(new ItemStack(net.minecraft.init.Items.dye, 1, 15), Items.small_bone);
 	}
 }
