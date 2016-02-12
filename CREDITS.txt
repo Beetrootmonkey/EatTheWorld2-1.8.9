@@ -1,0 +1,37 @@
+All source code was done by myself (IAmTheIssue).
+
+Most textures where drawn with GIMP (again, by myself).
+https://www.gimp.org/
+Some of them are based on those from the original game.
+
+Some textures* where copied from a mod called "Realistic Animal Products And Drops" by Sargeant_789575 - 
+with friendly permission from himself to use them. If you like my mod, check out his:
+http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2389704-realistic-animal-products-and-drops-mod-updates
+
+I'm not sure where I got raw_horse_meat.png from (found via google image search).
+If you're the author, and you would like me to remove this texture from my mod, please
+message me - I'll gladly follow your wish.
+cooked_horse_meat.png was done by myself, but is obviously based on the raw version.
+
+
+
+
+
+
+
+* Textures by Sargeant_789575 include:
+  - bat_hide.png
+  - brown_hide.png
+  - cow_hide.png
+  - gray_hide.png
+  - horse_hide.png
+  - mooshroom_hide.png
+  - ocelote_hide.png
+  - pig_skin.png
+  - sheep_hide.png
+  - wolf_hide.png
+  The following textures are based on his:
+  - cooked_ocelot_meat.png
+  - cooked_wolf_meat.png
+  - raw_ocelot_meat.png
+  - raw_wolf_meat.png
