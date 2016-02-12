@@ -2,6 +2,7 @@ package iamtheissue.eattheworld.init;
 
 import java.util.Random;
 
+import iamtheissue.eattheworld.config.AlteredDrops;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.*;
@@ -41,22 +42,18 @@ public class EventHook
 				actualAmount++;
 			}
 		}
-		if(!event.entity.isBurning() && actualAmount == 0 && amount > 1)
+		if(AlteredDrops.minimumDrop && !event.entity.isBurning() && actualAmount == 0 && amount > 1)
 		{
 			actualAmount = 1;
 		}
 		addDrop(event, item, actualAmount, meta);
-	}
-	private void dropExp(LivingDropsEvent event, float min, float max)
-	{
-		//.add(new EntityXPOrb(event.entity.worldObj, event.entity.posX, event.entity.posY, event.entity.posZ, 1));
 	}
 	
 	@SubscribeEvent
 	public void entityDies(LivingDropsEvent event)
 	{
 		// Steam Engines Mod integration would allow their own version of fat to be dropped
-		if(event.entity instanceof EntityBat)
+		if(AlteredDrops.bat && event.entity instanceof EntityBat)
 		{
 			if(event.entity.isBurning())
 			{
@@ -70,7 +67,7 @@ public class EventHook
 			addDrop(event, Items.fat, 1, 0.5f);
 			addDrop(event, Items.small_bone, 2, 0.4f);
 		}
-		else if(event.entity instanceof EntityChicken)
+		else if(AlteredDrops.chicken && event.entity instanceof EntityChicken)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -89,7 +86,7 @@ public class EventHook
 				addDrop(event, Items.small_bone, 3, 0.7f);
 			}
 		}
-		else if(event.entity instanceof EntityMooshroom)
+		else if(AlteredDrops.mooshroom && event.entity instanceof EntityMooshroom)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -108,7 +105,7 @@ public class EventHook
 				addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.red_mushroom), 3, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntityCow)
+		else if(AlteredDrops.cow && event.entity instanceof EntityCow)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -126,12 +123,12 @@ public class EventHook
 				addDrop(event, net.minecraft.init.Items.bone, 3, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntityGhast)
+		else if(AlteredDrops.ghast && event.entity instanceof EntityGhast)
 		{
 			addDrop(event, Items.ghast_skin, 30, 0.5f);
 			addDrop(event, Items.raw_ghast_meat, 9, 0.5f);
 		}
-		else if(event.entity instanceof EntityHorse)
+		else if(AlteredDrops.horse && event.entity instanceof EntityHorse)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -150,7 +147,7 @@ public class EventHook
 				addDrop(event, net.minecraft.init.Items.bone, 4, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntityVillager)
+		else if(AlteredDrops.villager && event.entity instanceof EntityVillager)
 		{
 			if(!((EntityAgeable)event.entity).isChild())
 			{
@@ -167,7 +164,7 @@ public class EventHook
 				addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntityOcelot)
+		else if(AlteredDrops.ocelot && event.entity instanceof EntityOcelot)
 		{
 			if(!((EntityAgeable)event.entity).isChild())
 			{
@@ -184,7 +181,7 @@ public class EventHook
 				addDrop(event, Items.small_bone, 3, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntityPig)
+		else if(AlteredDrops.pig && event.entity instanceof EntityPig)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -202,7 +199,7 @@ public class EventHook
 				addDrop(event, net.minecraft.init.Items.bone, 3, 0.8f);
 			}
 		}
-		else if(event.entity instanceof EntitySheep)
+		else if(AlteredDrops.sheep && event.entity instanceof EntitySheep)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -216,12 +213,15 @@ public class EventHook
 					addDrop(event, net.minecraft.init.Items.mutton, 3, 0.7f);
 				}
 				addDrop(event, Items.sheep_hide, 1, 0.9f);
-				addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.wool), 2, 0.7f);
+				if(!((EntitySheep)event.entity).getSheared())
+				{
+					addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.wool), 2, 0.7f);
+				}
 				addDrop(event, Items.fat, 3, 0.8f);
 				addDrop(event, net.minecraft.init.Items.bone, 3, 0.7f);
 			}
 		}
-		else if(event.entity instanceof EntitySilverfish)
+		else if(AlteredDrops.silverfish && event.entity instanceof EntitySilverfish)
 		{
 			if(event.entity.isBurning())
 			{
@@ -232,7 +232,7 @@ public class EventHook
 				addDrop(event, Items.raw_silverfish, 1, 0.9f);
 			}
 		}
-		else if(event.entity instanceof EntitySpider)
+		else if(AlteredDrops.spider && event.entity instanceof EntitySpider)
 		{
 			event.drops.clear();
 			if(event.entity.isBurning())
@@ -246,7 +246,7 @@ public class EventHook
 				addDrop(event, Items.raw_spider_leg, 8, 0.5f);
 			}
 		}
-		else if(event.entity instanceof EntitySquid)
+		else if(AlteredDrops.squid && event.entity instanceof EntitySquid)
 		{
 			event.drops.clear();
 			if(event.entity.isBurning())
@@ -259,7 +259,7 @@ public class EventHook
 			}
 			addDrop(event, net.minecraft.init.Items.dye, 1, 0.9f);
 		}
-		else if(event.entity instanceof EntityWolf)
+		else if(AlteredDrops.wolf && event.entity instanceof EntityWolf)
 		{
 			if(!((EntityAgeable)event.entity).isChild())
 			{
@@ -276,7 +276,7 @@ public class EventHook
 				addDrop(event, net.minecraft.init.Items.bone, 2, 0.7f);
 			}
 		}
-		else if(event.entity instanceof EntityZombie)
+		else if(AlteredDrops.zombie && event.entity instanceof EntityZombie)
 		{
 			event.drops.clear();
 			if(!((EntityZombie)event.entity).isChild())
@@ -291,7 +291,7 @@ public class EventHook
 			}
 			addDrop(event, net.minecraft.init.Items.skull, 1, 0.1f, 2);
 		}
-		else if(event.entity instanceof EntityIronGolem)
+		else if(AlteredDrops.ironGolem && event.entity instanceof EntityIronGolem)
 		{
 			event.drops.clear();
 			addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.iron_block), 2, 0.5f);
@@ -299,11 +299,11 @@ public class EventHook
 			// Thaumcraft integration would allow it to drop iron nuggets
 			addDrop(event, Items.heart_of_gold, 1, 1f);
 		}
-		else if(event.entity instanceof EntityGolem)
+		else if(AlteredDrops.snowGolem && event.entity instanceof EntityGolem)
 		{
 			addDrop(event, Items.frozen_heart, 1, 0.9f);
 		}
-		else if(event.entity instanceof EntityRabbit)
+		else if(AlteredDrops.rabbit && event.entity instanceof EntityRabbit)
 		{
 			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
@@ -324,23 +324,24 @@ public class EventHook
 		}
 		else if(event.entity instanceof EntitySkeleton)
 		{
-			event.drops.clear();
 			int type = ((EntitySkeleton)event.entity).getSkeletonType();
-			if(type == 0)
+			if(AlteredDrops.skeleton && type == 0)
 			{
+				event.drops.clear();
 				addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
 				addDrop(event, Items.small_bone, 4, 0.9f);
 				addDrop(event, net.minecraft.init.Items.arrow, 10, 0.5f);
+				addDrop(event, net.minecraft.init.Items.skull, 1, 0.1f, 0);
 			}
-			else
+			else if(AlteredDrops.witherSkeleton && type == 1)
 			{
+				event.drops.clear();
 				addDrop(event, net.minecraft.init.Items.bone, 3, 0.9f);
 				addDrop(event, Items.small_bone, 2, 0.9f);
+				addDrop(event, net.minecraft.init.Items.skull, 1, 0.05f, 1);
 			}
-			addDrop(event, net.minecraft.init.Items.skull, 1, 0.1f, type);
-			
 		}
-		else if(event.entity instanceof EntityPigZombie)
+		else if(AlteredDrops.pigZombie && event.entity instanceof EntityPigZombie)
 		{
 			event.drops.clear();
 			if(!((EntityPigZombie)event.entity).isChild())
@@ -356,53 +357,50 @@ public class EventHook
 				addDrop(event, Items.small_bone, 2, 0.7f);
 			}
 		}
-		else if(event.entity instanceof EntityBlaze)
+		else if(AlteredDrops.blaze && event.entity instanceof EntityBlaze)
 		{
 			event.drops.clear();
 			addDrop(event, net.minecraft.init.Items.blaze_rod, 8, 0.5f);
 			// Tinker's Construct integration would allow them to drop their head
 		}
-		else if(event.entity instanceof EntityMagmaCube)
+		else if(AlteredDrops.magmaCube && event.entity instanceof EntityMagmaCube)
 		{
 			// Doesn't do shit
 		}
-		else if(event.entity instanceof EntitySlime)
+		else if(AlteredDrops.slime && event.entity instanceof EntitySlime)
 		{
 			// This doesn't do shit either
 		}
-		else if(event.entity instanceof EntityWitch)
+		else if(AlteredDrops.witch && event.entity instanceof EntityWitch)
 		{
-			if(event.entityLiving.getAge() >= 0)
+			if(event.entity.isBurning())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, Items.cooked_human_meat, 2, 0.9f);
-				}
-				else
-				{
-					addDrop(event, Items.raw_human_meat, 2, 0.9f);
-				}
-				addDrop(event, Items.human_skin, 1, 0.9f);
-				addDrop(event, Items.fat, 3, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
-				// Should add some more random, rare drops, like brewing ingredients
+				addDrop(event, Items.cooked_human_meat, 2, 0.9f);
 			}
+			else
+			{
+				addDrop(event, Items.raw_human_meat, 2, 0.9f);
+			}
+			addDrop(event, Items.human_skin, 1, 0.9f);
+			addDrop(event, Items.fat, 3, 0.8f);
+			addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
+			// Should add some more random, rare drops, like brewing ingredients
 		}
-		else if(event.entity instanceof EntityEnderman)
+		else if(AlteredDrops.enderman && event.entity instanceof EntityEnderman)
 		{
 			event.drops.clear();
 			addDrop(event, net.minecraft.init.Items.ender_pearl, 1, 0.9f);
 		}
-		else if(event.entity instanceof EntityCreeper)
+		else if(AlteredDrops.creeper && event.entity instanceof EntityCreeper)
 		{
 			event.drops.clear();
 			addDrop(event, net.minecraft.init.Items.gunpowder, 3, 0.6f);
 		}
-		else if(event.entity instanceof EntityDragon)
+		else if(AlteredDrops.enderDragon && event.entity instanceof EntityDragon)
 		{
 			// Drops nothing special. How boring. Pls fix.
 		}
-		else if(event.entity instanceof EntityWither)
+		else if(AlteredDrops.wither && event.entity instanceof EntityWither)
 		{
 			// Should drop some more stuff. I mean, it is a boss!
 		}
