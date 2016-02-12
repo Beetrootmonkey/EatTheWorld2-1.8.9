@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "eattheworld:items/ocelote_hide"
+        "layer0": "eattheworld:items/ocelot_hide"
     },
     "display": {
         "thirdperson": {
