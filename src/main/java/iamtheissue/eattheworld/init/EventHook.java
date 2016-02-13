@@ -39,8 +39,8 @@ public class EventHook
 	{
 		Random r = new Random();
 		int lootingIncrease = increasedByLooting ? event.lootingLevel : 0;
-		int amount = r.nextInt(1 + max - min + lootingIncrease) + min;
-		addDrop(event, item, amount, meta);
+		int amount = r.nextInt(1 + max + lootingIncrease - min) + min;
+		addToDrops(event, item, amount, meta);
 	}
 	
 	private void removeDrop(LivingDropsEvent event, Item item)
@@ -93,7 +93,7 @@ public class EventHook
 			{
 				removeDrop(event, net.minecraft.init.Items.leather);
 				addDrop(event, Items.mooshroom_hide, 0, 1);
-				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, Items.fat, 1, 3, true);
 				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
 		}
@@ -103,7 +103,7 @@ public class EventHook
 			{
 				removeDrop(event, net.minecraft.init.Items.leather);
 				addDrop(event, Items.cow_hide, 0, 1);
-				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, Items.fat, 1, 3, true);
 				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
 		}
@@ -119,14 +119,14 @@ public class EventHook
 				removeDrop(event, net.minecraft.init.Items.leather);
 				if(event.entity.isBurning())
 				{
-					addDrop(event, Items.cooked_horse_meat, 0, 3, true);
+					addDrop(event, Items.cooked_horse_meat, 1, 3, true);
 				}
 				else
 				{
-					addDrop(event, Items.raw_horse_meat, 0, 3, true);
+					addDrop(event, Items.raw_horse_meat, 1, 3, true);
 				}
 				addDrop(event, Items.horse_hide, 0, 1);
-				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, Items.fat, 1, 3, true);
 				addDrop(event, Items.horse_hair, 0, 2, true);
 				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
@@ -197,7 +197,7 @@ public class EventHook
 			if(!((EntityAgeable)event.entity).isChild())
 			{
 				addDrop(event, Items.pig_skin, 0, 1);
-				addDrop(event, Items.fat, 0, 5, true);
+				addDrop(event, Items.fat, 1, 5, true);
 				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 		}
@@ -226,24 +226,24 @@ public class EventHook
 			removeDrop(event, net.minecraft.init.Items.spider_eye);
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_spider_eye, 0, 5, true);
-				addDrop(event, Items.cooked_spider_leg, 0, 5, true);
+				addDrop(event, Items.cooked_spider_eye, 1, 5, true);
+				addDrop(event, Items.cooked_spider_leg, 1, 5, true);
 			}
 			else
 			{
-				addDrop(event, net.minecraft.init.Items.spider_eye, 0, 5, true);
-				addDrop(event, Items.raw_spider_leg, 0, 5, true);
+				addDrop(event, net.minecraft.init.Items.spider_eye, 1, 5, true);
+				addDrop(event, Items.raw_spider_leg, 1, 5, true);
 			}
 		}
 		else if(AlteredDrops.squid && event.entity instanceof EntitySquid)
 		{
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_squid_meat, 0, 5, true);
+				addDrop(event, Items.cooked_squid_meat, 1, 5, true);
 			}
 			else
 			{
-				addDrop(event, Items.raw_squid_meat, 0, 5, true);
+				addDrop(event, Items.raw_squid_meat, 1, 5, true);
 			}
 		}
 		else if(AlteredDrops.wolf && event.entity instanceof EntityWolf)
@@ -302,7 +302,7 @@ public class EventHook
 			event.drops.clear();
 			if(!((EntityPigZombie)event.entity).isChild())
 			{
-				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, Items.fat, 1, 3, true);
 				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 			else
