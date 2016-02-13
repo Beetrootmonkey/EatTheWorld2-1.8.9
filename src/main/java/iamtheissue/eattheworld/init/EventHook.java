@@ -1,5 +1,7 @@
 package iamtheissue.eattheworld.init;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import iamtheissue.eattheworld.config.AlteredDrops;
@@ -17,36 +19,44 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHook
 {
-	private void addDrop(LivingDropsEvent event, Item item, int amount, int meta)
+	private void addToDrops(LivingDropsEvent event, Item item, int amount, int meta)
 	{
 		event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY, event.entity.posZ, new ItemStack(item, amount, meta)));
 	}
-	private void addDrop(LivingDropsEvent event, Item item, int amount, float chance)
+	private void addDrop(LivingDropsEvent event, Item item, int min, int max)
 	{
-		addDrop(event, item, amount, chance, 0);
+		addDrop(event, item, min, max, 0);
 	}
-	private void addDrop(LivingDropsEvent event, Item item, int amount, float chance, int meta)
+	private void addDrop(LivingDropsEvent event, Item item, int min, int max, int meta)
 	{
-		float chance2 = event.entity.isBurning() ? chance * 0.5f : chance;
+		addDrop(event, item, min, max, meta, false);
+	}
+	private void addDrop(LivingDropsEvent event, Item item, int min, int max, boolean increasedByLooting)
+	{
+		addDrop(event, item, min, max, 0, increasedByLooting);
+	}
+	private void addDrop(LivingDropsEvent event, Item item, int min, int max, int meta, boolean increasedByLooting)
+	{
 		Random r = new Random();
-		int actualAmount = 0;
-		float extendedChance = chance2;
-		for(int i = 0; i < event.lootingLevel; i++)
+		int lootingIncrease = increasedByLooting ? event.lootingLevel : 0;
+		int amount = r.nextInt(1 + max - min + lootingIncrease) + min;
+		addDrop(event, item, amount, meta);
+	}
+	
+	private void removeDrop(LivingDropsEvent event, Item item)
+	{
+		List<EntityItem> list = new ArrayList<EntityItem>();
+		for (Object drop : event.drops)
 		{
-			extendedChance += chance2 * (1 - extendedChance);
-		}
-		for(int i = 0; i < amount; i++)
-		{
-			if(r.nextFloat() <= extendedChance)
+			if(((EntityItem) drop).getEntityItem().getUnlocalizedName() == item.getUnlocalizedName())
 			{
-				actualAmount++;
+				list.add((EntityItem) drop);
 			}
 		}
-		if(AlteredDrops.minimumDrop && !event.entity.isBurning() && actualAmount == 0 && amount > 1)
+		for (Object drop : list)
 		{
-			actualAmount = 1;
+			event.drops.remove(drop);
 		}
-		addDrop(event, item, actualAmount, meta);
 	}
 	
 	@SubscribeEvent
@@ -57,94 +67,68 @@ public class EventHook
 		{
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_bat, 1, 0.9f);
+				addDrop(event, Items.cooked_bat, 0, 1);
 			}
 			else
 			{
-				addDrop(event, Items.raw_bat, 1, 0.9f);
+				addDrop(event, Items.raw_bat, 0, 1);
 			}
-			addDrop(event, Items.bat_hide, 1, 0.9f);
-			addDrop(event, Items.fat, 1, 0.5f);
-			addDrop(event, Items.small_bone, 2, 0.4f);
+			addDrop(event, Items.bat_hide, 0, 1, true);
+			addDrop(event, Items.small_bone, 0, 1, true);
 		}
 		else if(AlteredDrops.chicken && event.entity instanceof EntityChicken)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_chicken, 1, 0.9f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.chicken, 1, 0.9f);
-				}
-				addDrop(event, net.minecraft.init.Items.feather, 10, 0.5f);
-				addDrop(event, Items.chicken_skin, 1, 0.9f);
-				addDrop(event, Items.fat, 2, 0.4f);
-				addDrop(event, Items.small_bone, 3, 0.7f);
+				removeDrop(event, net.minecraft.init.Items.feather);
+				addDrop(event, net.minecraft.init.Items.feather, 2, 5, true);
+				addDrop(event, Items.chicken_skin, 0, 1);
+				addDrop(event, Items.fat, 0, 1, true);
+				addDrop(event, Items.small_bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.mooshroom && event.entity instanceof EntityMooshroom)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_beef, 3, 0.9f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.beef, 3, 0.9f);
-				}
-				addDrop(event, Items.mooshroom_hide, 1, 0.9f);
-				addDrop(event, Items.fat, 5, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 3, 0.9f);
-				addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.red_mushroom), 3, 0.9f);
+				removeDrop(event, net.minecraft.init.Items.leather);
+				addDrop(event, Items.mooshroom_hide, 0, 1);
+				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
 		}
 		else if(AlteredDrops.cow && event.entity instanceof EntityCow)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_beef, 3, 0.9f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.beef, 3, 0.9f);
-				}
-				addDrop(event, Items.cow_hide, 1, 0.9f);
-				addDrop(event, Items.fat, 5, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 3, 0.9f);
+				removeDrop(event, net.minecraft.init.Items.leather);
+				addDrop(event, Items.cow_hide, 0, 1);
+				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
 		}
 		else if(AlteredDrops.ghast && event.entity instanceof EntityGhast)
 		{
-			addDrop(event, Items.ghast_skin, 30, 0.5f);
-			addDrop(event, Items.raw_ghast_meat, 9, 0.5f);
+			addDrop(event, Items.ghast_skin, 0, 8, true);
+			addDrop(event, Items.raw_ghast_meat, 0, 6, true);
 		}
 		else if(AlteredDrops.horse && event.entity instanceof EntityHorse)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
+				removeDrop(event, net.minecraft.init.Items.leather);
 				if(event.entity.isBurning())
 				{
-					addDrop(event, Items.cooked_horse_meat, 4, 0.9f);
+					addDrop(event, Items.cooked_horse_meat, 0, 3, true);
 				}
 				else
 				{
-					addDrop(event, Items.raw_horse_meat, 4, 0.9f);
+					addDrop(event, Items.raw_horse_meat, 0, 3, true);
 				}
-				addDrop(event, Items.horse_hide, 1, 0.9f);
-				addDrop(event, Items.fat, 6, 0.8f);
-				addDrop(event, Items.horse_hair, 3, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 4, 0.9f);
+				addDrop(event, Items.horse_hide, 0, 1);
+				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, Items.horse_hair, 0, 2, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 3, true);
 			}
 		}
 		else if(AlteredDrops.villager && event.entity instanceof EntityVillager)
@@ -153,15 +137,15 @@ public class EventHook
 			{
 				if(event.entity.isBurning())
 				{
-					addDrop(event, Items.cooked_human_meat, 2, 0.9f);
+					addDrop(event, Items.cooked_human_meat, 0, 2, true);
 				}
 				else
 				{
-					addDrop(event, Items.raw_human_meat, 2, 0.9f);
+					addDrop(event, Items.raw_human_meat, 0, 2, true);
 				}
-				addDrop(event, Items.human_skin, 1, 0.9f);
-				addDrop(event, Items.fat, 2, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
+				addDrop(event, Items.human_skin, 0, 1);
+				addDrop(event, Items.fat, 0, 2, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.ocelot && event.entity instanceof EntityOcelot)
@@ -170,38 +154,38 @@ public class EventHook
 			{
 				if(event.entity.isBurning())
 				{
-					addDrop(event, Items.cooked_ocelot_meat, 1, 0.9f);
+					addDrop(event, Items.cooked_ocelot_meat, 0, 1);
 				}
 				else
 				{
-					addDrop(event, Items.raw_ocelot_meat, 1, 0.9f);
+					addDrop(event, Items.raw_ocelot_meat, 0, 1);
 				}
-				addDrop(event, Items.fat, 2, 0.4f);
-				addDrop(event, Items.small_bone, 3, 0.9f);
+				addDrop(event, Items.fat, 0, 1, true);
+				addDrop(event, Items.small_bone, 0, 2, true);
 				switch(((EntityOcelot)event.entity).getTameSkin())
 				{
 					case 0:
 					{
 						if(AlteredDrops.ocelot)
-							addDrop(event, Items.ocelot_hide, 1, 0.9f);
+							addDrop(event, Items.ocelot_hide, 0, 1);
 						break;
 					}
 					case 1:
 					{
 						if(AlteredDrops.tamedOcelot)
-							addDrop(event, Items.tuxedo_cat_hide, 1, 0.9f);
+							addDrop(event, Items.tuxedo_cat_hide, 0, 1);
 						break;
 					}
 					case 2:
 					{
 						if(AlteredDrops.tamedOcelot)
-							addDrop(event, Items.tabby_cat_hide, 1, 0.9f);
+							addDrop(event, Items.tabby_cat_hide, 0, 1);
 						break;
 					}
 					case 3:
 					{
 						if(AlteredDrops.tamedOcelot)
-							addDrop(event, Items.siamese_cat_hide, 1, 0.9f);
+							addDrop(event, Items.siamese_cat_hide, 0, 1);
 						break;
 					}
 				}
@@ -210,82 +194,57 @@ public class EventHook
 		}
 		else if(AlteredDrops.pig && event.entity instanceof EntityPig)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_porkchop, 3, 0.8f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.porkchop, 3, 0.8f);
-				}
-				addDrop(event, Items.pig_skin, 1, 0.9f);
-				addDrop(event, Items.fat, 5, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 3, 0.8f);
+				addDrop(event, Items.pig_skin, 0, 1);
+				addDrop(event, Items.fat, 0, 5, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.sheep && event.entity instanceof EntitySheep)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_mutton, 3, 0.7f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.mutton, 3, 0.7f);
-				}
-				addDrop(event, Items.sheep_hide, 1, 0.9f);
-				if(!((EntitySheep)event.entity).getSheared())
-				{
-					int meta = ((EntitySheep)event.entity).getFleeceColor().getMetadata();
-					addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.wool), 2, 0.7f, meta);
-				}
-				addDrop(event, Items.fat, 3, 0.8f);
-				addDrop(event, net.minecraft.init.Items.bone, 3, 0.7f);
+				addDrop(event, Items.sheep_hide, 0, 1);
+				addDrop(event, Items.fat, 0, 2, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.silverfish && event.entity instanceof EntitySilverfish)
 		{
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_silverfish, 1, 0.9f);
+				addDrop(event, Items.cooked_silverfish, 0, 1);
 			}
 			else
 			{
-				addDrop(event, Items.raw_silverfish, 1, 0.9f);
+				addDrop(event, Items.raw_silverfish, 0, 1);
 			}
 		}
 		else if(AlteredDrops.spider && event.entity instanceof EntitySpider)
 		{
-			event.drops.clear();
+			removeDrop(event, net.minecraft.init.Items.spider_eye);
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_spider_eye, 8, 0.5f);
-				addDrop(event, Items.cooked_spider_leg, 8, 0.5f);
+				addDrop(event, Items.cooked_spider_eye, 0, 5, true);
+				addDrop(event, Items.cooked_spider_leg, 0, 5, true);
 			}
 			else
 			{
-				addDrop(event, net.minecraft.init.Items.spider_eye, 8, 0.5f);
-				addDrop(event, Items.raw_spider_leg, 8, 0.5f);
+				addDrop(event, net.minecraft.init.Items.spider_eye, 0, 5, true);
+				addDrop(event, Items.raw_spider_leg, 0, 5, true);
 			}
 		}
 		else if(AlteredDrops.squid && event.entity instanceof EntitySquid)
 		{
-			event.drops.clear();
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_squid_meat, 8, 0.5f);
+				addDrop(event, Items.cooked_squid_meat, 0, 5, true);
 			}
 			else
 			{
-				addDrop(event, Items.raw_squid_meat, 8, 0.5f);
+				addDrop(event, Items.raw_squid_meat, 0, 5, true);
 			}
-			addDrop(event, net.minecraft.init.Items.dye, 1, 0.9f);
 		}
 		else if(AlteredDrops.wolf && event.entity instanceof EntityWolf)
 		{
@@ -293,102 +252,67 @@ public class EventHook
 			{
 				if(event.entity.isBurning())
 				{
-					addDrop(event, Items.cooked_wolf_meat, 2, 0.8f);
+					addDrop(event, Items.cooked_wolf_meat, 0, 2);
 				}
 				else
 				{
-					addDrop(event, Items.raw_wolf_meat, 2, 0.8f);
+					addDrop(event, Items.raw_wolf_meat, 0, 2);
 				}
-				addDrop(event, Items.wolf_hide, 1, 0.9f);
-				addDrop(event, Items.fat, 2, 0.7f);
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.7f);
+				addDrop(event, Items.wolf_hide, 0, 1);
+				addDrop(event, Items.fat, 0, 2, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.zombie && event.entity instanceof EntityZombie)
 		{
-			event.drops.clear();
 			if(!((EntityZombie)event.entity).isChild())
 			{
-				addDrop(event, net.minecraft.init.Items.rotten_flesh, 2, 0.9f);
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.7f);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 			else
 			{
-				addDrop(event, net.minecraft.init.Items.rotten_flesh, 1, 0.9f);
-				addDrop(event, Items.small_bone, 2, 0.7f);
+				addDrop(event, Items.small_bone, 0, 2, true);
 			}
-			addDrop(event, net.minecraft.init.Items.skull, 1, 0.1f, 2);
 		}
 		else if(AlteredDrops.ironGolem && event.entity instanceof EntityIronGolem)
 		{
-			event.drops.clear();
-			addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.iron_block), 2, 0.5f);
-			addDrop(event, net.minecraft.init.Items.iron_ingot, 8, 0.5f);
+			addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.iron_block), 0, 2);
+			addDrop(event, net.minecraft.init.Items.iron_ingot, 0, 5, true);
 			// Thaumcraft integration would allow it to drop iron nuggets
-			addDrop(event, Items.heart_of_gold, 1, 1f);
+			addDrop(event, Items.heart_of_gold, 1, 1);
 		}
 		else if(AlteredDrops.snowGolem && event.entity instanceof EntityGolem)
 		{
-			addDrop(event, Items.frozen_heart, 1, 0.9f);
+			addDrop(event, Items.frozen_heart, 0, 1);
 		}
 		else if(AlteredDrops.rabbit && event.entity instanceof EntityRabbit)
 		{
-			event.drops.clear();
 			if(!((EntityAgeable)event.entity).isChild())
 			{
-				if(event.entity.isBurning())
-				{
-					addDrop(event, net.minecraft.init.Items.cooked_rabbit, 1, 0.9f);
-				}
-				else
-				{
-					addDrop(event, net.minecraft.init.Items.rabbit, 1, 0.9f);
-				}
-				addDrop(event, net.minecraft.init.Items.rabbit_hide, 1, 0.9f);
-				addDrop(event, Items.fat, 2, 0.6f);
-				addDrop(event, net.minecraft.init.Items.rabbit_foot, 1, 0.1f);
-				addDrop(event, Items.small_bone, 2, 0.8f);
+				addDrop(event, Items.fat, 0, 1);
+				addDrop(event, Items.small_bone, 0, 2, true);
 			}
 		}
 		else if(event.entity instanceof EntitySkeleton)
 		{
-			int type = ((EntitySkeleton)event.entity).getSkeletonType();
-			if(AlteredDrops.skeleton && type == 0)
-			{
-				event.drops.clear();
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
-				addDrop(event, Items.small_bone, 4, 0.9f);
-				addDrop(event, net.minecraft.init.Items.arrow, 10, 0.5f);
-				addDrop(event, net.minecraft.init.Items.skull, 1, 0.1f, 0);
-			}
-			else if(AlteredDrops.witherSkeleton && type == 1)
-			{
-				event.drops.clear();
-				addDrop(event, net.minecraft.init.Items.bone, 3, 0.9f);
-				addDrop(event, Items.small_bone, 2, 0.9f);
-				addDrop(event, net.minecraft.init.Items.skull, 1, 0.05f, 1);
-			}
+			
 		}
 		else if(AlteredDrops.pigZombie && event.entity instanceof EntityPigZombie)
 		{
 			event.drops.clear();
 			if(!((EntityPigZombie)event.entity).isChild())
 			{
-				addDrop(event, net.minecraft.init.Items.rotten_flesh, 2, 0.9f);
-				addDrop(event, Items.fat, 3, 0.7f);
-				addDrop(event, net.minecraft.init.Items.bone, 2, 0.7f);
+				addDrop(event, Items.fat, 0, 3, true);
+				addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 			}
 			else
 			{
-				addDrop(event, net.minecraft.init.Items.rotten_flesh, 1, 0.9f);
-				addDrop(event, Items.fat, 2, 0.5f);
-				addDrop(event, Items.small_bone, 2, 0.7f);
+				addDrop(event, Items.fat, 0, 1, true);
+				addDrop(event, Items.small_bone, 0, 2, true);
 			}
 		}
 		else if(AlteredDrops.blaze && event.entity instanceof EntityBlaze)
 		{
-			event.drops.clear();
-			addDrop(event, net.minecraft.init.Items.blaze_rod, 8, 0.5f);
 			// Tinker's Construct integration would allow them to drop their head
 		}
 		else if(AlteredDrops.magmaCube && event.entity instanceof EntityMagmaCube)
@@ -403,26 +327,23 @@ public class EventHook
 		{
 			if(event.entity.isBurning())
 			{
-				addDrop(event, Items.cooked_human_meat, 2, 0.9f);
+				addDrop(event, Items.cooked_human_meat, 0, 2, true);
 			}
 			else
 			{
-				addDrop(event, Items.raw_human_meat, 2, 0.9f);
+				addDrop(event, Items.raw_human_meat, 0, 2, true);
 			}
-			addDrop(event, Items.human_skin, 1, 0.9f);
-			addDrop(event, Items.fat, 3, 0.8f);
-			addDrop(event, net.minecraft.init.Items.bone, 2, 0.9f);
-			// Should add some more random, rare drops, like brewing ingredients
+			addDrop(event, Items.human_skin, 0, 1);
+			addDrop(event, Items.fat, 0, 2, true);
+			addDrop(event, net.minecraft.init.Items.bone, 0, 2, true);
 		}
 		else if(AlteredDrops.enderman && event.entity instanceof EntityEnderman)
 		{
-			event.drops.clear();
-			addDrop(event, net.minecraft.init.Items.ender_pearl, 1, 0.9f);
+			
 		}
 		else if(AlteredDrops.creeper && event.entity instanceof EntityCreeper)
 		{
-			event.drops.clear();
-			addDrop(event, net.minecraft.init.Items.gunpowder, 3, 0.6f);
+			
 		}
 		else if(AlteredDrops.enderDragon && event.entity instanceof EntityDragon)
 		{
