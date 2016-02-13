@@ -242,7 +242,8 @@ public class EventHook
 				addDrop(event, Items.sheep_hide, 1, 0.9f);
 				if(!((EntitySheep)event.entity).getSheared())
 				{
-					addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.wool), 2, 0.7f);
+					int meta = ((EntitySheep)event.entity).getFleeceColor().getMetadata();
+					addDrop(event, Item.getItemFromBlock(net.minecraft.init.Blocks.wool), 2, 0.7f, meta);
 				}
 				addDrop(event, Items.fat, 3, 0.8f);
 				addDrop(event, net.minecraft.init.Items.bone, 3, 0.7f);
