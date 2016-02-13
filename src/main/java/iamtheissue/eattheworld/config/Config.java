@@ -20,7 +20,7 @@ public class Config
         //someProperty.comment = "This value can be read as a string!";
         
         //String someConfigString = someProperty.getString();
-		AlteredDrops.minimumDrop = config.getBoolean("minimumDrop", Configuration.CATEGORY_GENERAL, true, "If true, every drop that could spawn more than one item is guaranteed to spawn at least one.");
+		AlteredDrops.minimumDrop = config.getBoolean("minimumDrop", Configuration.CATEGORY_GENERAL, false, "If true, every drop that could spawn more than one item is guaranteed to spawn at least one.");
 		
         config.setCategoryComment(CATEGORY_DROPS, "If false, disables the alteration of this mob's drops.");
         AlteredDrops.bat = config.get(CATEGORY_DROPS, "bat", true).getBoolean(true);
